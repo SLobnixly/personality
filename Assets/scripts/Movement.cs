@@ -7,8 +7,10 @@ public class Movement : MonoBehaviour
     [SerializeField] LayerMask groundlayer;
     private Rigidbody2D body;
     [SerializeField] float speed;
+    public float jump;
     private Animator anim;
     private BoxCollider2D boxCollider;
+   
 
     private void Awake()
     {
@@ -35,7 +37,8 @@ public class Movement : MonoBehaviour
         //jump
         if (Input.GetKey(KeyCode.Space) && isGrounded())
         {
-            body.velocity = new Vector2(body.velocity.x, speed);
+            
+            Jump();
 
         }
         // set animations
@@ -44,11 +47,16 @@ public class Movement : MonoBehaviour
     }
     private void Jump()
     {
-        body.velocity = new Vector2(body.velocity.x, speed);
-        anim.SetTrigger("Jump");
+        body.velocity = new Vector2(body.velocity.x, jump);
+        
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
+    }
+    public void die()
+    {
+        speed = 0;
+        anim.SetBool("dead", true);
     }
     private bool isGrounded()
     {
